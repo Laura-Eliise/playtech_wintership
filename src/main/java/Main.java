@@ -18,11 +18,7 @@ public class Main {
         List<String> rawMatchData = reader.read("match_data.txt");
         List<String> rawPlayerData = reader.read("player_data.txt");
 
-        System.out.println(rawMatchData);
-        System.out.println(rawPlayerData);
-
-        Result result = new DataProcessor().process(rawMatchData.get(0), rawPlayerData.get(0));
-
+        Result result = new DataProcessor().process(rawMatchData, rawPlayerData);
         write.write("result.txt", result.toString());
     }
 }
