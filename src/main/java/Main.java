@@ -1,21 +1,27 @@
+import errors.CustomException;
 import processor.DataProcessor;
 import processor.Result;
 import textio.*;
+
+import java.util.List;
 
 public class Main {
     public static void Greetings() {
         System.out.println("Hello Playtech!");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CustomException {
         Greetings();
         TextReader reader = new TextReader();
         TextWriter write = new TextWriter();
 
-        String rawMatchData = reader.read("../resources/match_data.txt");
-        String rawPlayerData = reader.read("../resources/player_data.txt");
+        List<String> rawMatchData = reader.read("match_data.txt");
+        List<String> rawPlayerData = reader.read("player_data.txt");
 
-        Result result = new DataProcessor().process(rawMatchData, rawPlayerData);
+        System.out.println(rawMatchData);
+        System.out.println(rawPlayerData);
+
+        Result result = new DataProcessor().process(rawMatchData.get(0), rawPlayerData.get(0));
 
         write.write("result.txt", result.toString());
     }
