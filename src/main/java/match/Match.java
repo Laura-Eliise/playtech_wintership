@@ -1,8 +1,6 @@
 package match;
 
-import errors.CustomException;
 import player.Player;
-import processor.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +51,30 @@ public class Match {
      * @throws IllegalArgumentException If the bet amount is negative, the bet is on a match draw or the player has already bet on this match.
      */
     public void bet(Player player, int bet, MatchResult side) {
+        validateBet(player, bet, side);
+
+        if (side == result) {
+            won(player, bet, side);
+        } else if (result != MatchResult.DRAW) {
+            lost(player, bet);
+        } else {
+            player.matchDraw();
+        }
+        blacklisted.add(player.id);
+    }
+
+    /**
+     * Validates a bet operation by checking various conditions.
+     * <p>
+     * This method ensures that the bet amount is non-negative, the player has not already bet on the match,
+     * the bet is not placed on a draw, and the bet amount does not exceed the player's account balance.
+     *
+     * @param player the player placing the bet
+     * @param bet    the amount to bet
+     * @param side   the side on which the bet is placed (A or B)
+     * @throws IllegalArgumentException if any of the validation conditions are not met
+     */
+    private void validateBet(Player player, int bet, MatchResult side) {
         if (bet < 0 ) {
             throw new IllegalArgumentException("Bet amount can't be negative");
         }
@@ -62,13 +84,9 @@ public class Match {
         if (side == MatchResult.DRAW) {
             throw new IllegalArgumentException("Can't bet on a draw");
         }
-
-        if (side == result) {
-            won(player, bet, side);
-        } else if (result != MatchResult.DRAW) {
-            lost(player, bet);
+        if (bet > player.getBalance()) {
+            throw new IllegalArgumentException("Can't bet more than the account balance");
         }
-        blacklisted.add(player.id);
     }
 
     /**
@@ -80,7 +98,7 @@ public class Match {
      */
     private void won(Player player, int bet, MatchResult side) {
         int amountWon = (int) (bet * ((side == MatchResult.A) ? A : B));
-        player.increaseBalance(amountWon);
+        player.matchWin(amountWon);
         balance -= amountWon;
     }
 
@@ -91,7 +109,7 @@ public class Match {
      * @param bet    The amount the player lost.
      */
     private void lost(Player player, int bet) {
-        player.decreaseBalance(bet);
+        player.matchLose(bet);
         balance += bet;
     }
 

@@ -20,6 +20,7 @@ class MatchTest {
     void validBettingTest() {
         Match match = new Match(match_raw_data_1);
         Player player = new Player(player_raw_data_1);
+        player.incrementBalance(4000);
         assertDoesNotThrow(() -> match.bet(player, 20, MatchResult.B));
     }
 
@@ -27,6 +28,7 @@ class MatchTest {
     void bettingTwiceTest() {
         Match match = new Match(match_raw_data_1);
         Player player = new Player(player_raw_data_1);
+        player.incrementBalance(4000);
         assertDoesNotThrow(() -> match.bet(player, 20, MatchResult.B));
         assertThrows(IllegalArgumentException.class, () -> match.bet(player, 20, MatchResult.B));
     }
@@ -34,15 +36,25 @@ class MatchTest {
     void negativeBetTest() {
         Match match = new Match(match_raw_data_1);
         Player player = new Player(player_raw_data_1);
+        player.incrementBalance(4000);
         assertThrows(IllegalArgumentException.class, () -> match.bet(player, -20, MatchResult.B));
     }
-
+    @Test
+    void overBudgetBetTest() {
+        Match match = new Match(match_raw_data_1);
+        Player player = new Player(player_raw_data_1);
+        player.incrementBalance(4000);
+        assertThrows(IllegalArgumentException.class, () -> match.bet(player, 4001, MatchResult.B));
+    }
     @Test
     void multipleBetTest() {
         Match match = new Match(match_raw_data_1);
         Player player1 = new Player(player_raw_data_1);
         Player player2 = new Player(player_raw_data_2);
         Player player3 = new Player(player_raw_data_3);
+        player1.incrementBalance(4000);
+        player2.incrementBalance(50);
+        player3.incrementBalance(700);
 
         assertDoesNotThrow(() -> match.bet(player1, 250, MatchResult.B));
         assertDoesNotThrow(() -> match.bet(player2, 50, MatchResult.A));
@@ -53,6 +65,5 @@ class MatchTest {
         assertThrows(IllegalArgumentException.class, () -> match.bet(player1, 200, MatchResult.B));
         assertThrows(IllegalArgumentException.class, () -> match.bet(player2, 50, MatchResult.A));
         assertThrows(IllegalArgumentException.class, () -> match.bet(player3, 110, MatchResult.A));
-
     }
 }

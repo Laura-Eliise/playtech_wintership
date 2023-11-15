@@ -1,5 +1,5 @@
 import errors.CustomException;
-import processor.DataProcessor;
+import processor.OrderProcessor;
 import processor.Result;
 import textio.*;
 
@@ -18,7 +18,7 @@ public class Main {
         List<String> rawMatchData = reader.read("match_data.txt");
         List<String> rawPlayerData = reader.read("player_data.txt");
 
-        Result result = new DataProcessor().process(rawMatchData, rawPlayerData);
+        Result result = new OrderProcessor().process(rawMatchData, rawPlayerData);
         write.write("result.txt", result.toString());
     }
 }

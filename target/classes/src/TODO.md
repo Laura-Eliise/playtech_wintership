@@ -9,7 +9,7 @@ Java program that processes betting data.
   -  [ ] Write casino host balance
 
 ### Processing  
-- [ ] Process match data into classes.
+- [x] Process match data into a class.
 - [ ] Process player data
   - [ ] Handle DEPOSIT action 
   - [ ] Handle WITHDRAW action 
