@@ -1,14 +1,15 @@
 package processor;
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToIntFunction;
 
 import match.Match;
-import org.junit.jupiter.api.Test;
 import player.Player;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static utils.ListUtils.sumIntValues;
 
 class OrderProcessorTest {
     private final List<String> match_list_data = List.of(new String[]{
@@ -49,8 +50,8 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int casinoTotal = addAll(result.matches, Match::getBalance);
-        int playerTotal = addAll(result.players, Player::getBalance);
+        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
+        int playerTotal = sumIntValues(result.players, Player::getBalance);
         assertEquals(0, casinoTotal);
         assertEquals(4000+100+700, playerTotal);
     }
@@ -60,7 +61,7 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int playerTotal = addAll(result.players, Player::getBalance);
+        int playerTotal = sumIntValues(result.players, Player::getBalance);
         assertEquals(0, playerTotal);
 
         for (Player player : result.players) {
@@ -76,7 +77,7 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int playerTotal = addAll(result.players, Player::getBalance);
+        int playerTotal = sumIntValues(result.players, Player::getBalance);
         assertEquals(4000+100+700-1100-10, playerTotal);
 
         for (Player player : result.players) {
@@ -96,8 +97,8 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int playerTotal = addAll(result.players, Player::getBalance);
-        int casinoTotal = addAll(result.matches, Match::getBalance);
+        int playerTotal = sumIntValues(result.players, Player::getBalance);
+        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
         assertEquals(300+500-((int) (40*1.45)), casinoTotal);
         assertEquals(4000+100+700-300-500+((int) (40*1.45)), playerTotal);
 
@@ -114,8 +115,8 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int playerTotal = addAll(result.players, Player::getBalance);
-        int casinoTotal = addAll(result.matches, Match::getBalance);
+        int playerTotal = sumIntValues(result.players, Player::getBalance);
+        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
         assertEquals(40, casinoTotal);
         assertEquals(4000+100+700-40, playerTotal);
 
@@ -133,8 +134,8 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int playerTotal = addAll(result.players, Player::getBalance);
-        int casinoTotal = addAll(result.matches, Match::getBalance);
+        int playerTotal = sumIntValues(result.players, Player::getBalance);
+        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
         assertEquals(300+500-((int) (40*1.45))-((int) (1000*0.23))+50, casinoTotal);
         assertEquals(4000+100+700-300-500+((int) (40*1.45))+((int) (1000*0.23))-50, playerTotal);
 
@@ -153,8 +154,8 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int playerTotal = addAll(result.players, Player::getBalance);
-        int casinoTotal = addAll(result.matches, Match::getBalance);
+        int playerTotal = sumIntValues(result.players, Player::getBalance);
+        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
         assertEquals(300+500-((int) (40*1.45))-((int) (1000*0.23))+50, casinoTotal);
         assertEquals(4000+100+700-300-500+((int) (40*1.45))+((int) (1000*0.23))-50-1100-10, playerTotal);
 
@@ -165,11 +166,5 @@ class OrderProcessorTest {
                 assertFalse(player.isACriminal());
             }
         }
-    }
-
-    private <T> int addAll(List<T> list, ToIntFunction<T> mapper) {
-        return list.stream()
-                .mapToInt(mapper)
-                .sum();
     }
 }

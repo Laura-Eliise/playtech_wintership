@@ -2,7 +2,11 @@ package utils;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
 
+/**
+ * The `ListUtils` class provides utility methods for working with lists.
+ */
 public class ListUtils {
 
     /**
@@ -21,5 +25,17 @@ public class ListUtils {
             }
         }
         return -1;
+    }
+
+    /**
+     * Sums the integer values obtained by applying the provided mapper function to each element in the list.
+     *
+     * @param <T>    the type of elements in the list
+     * @param list   the list of elements
+     * @param mapper the function to convert each element to an integer
+     * @return the sum of the integer values obtained by applying the mapper function to each element
+     */
+    public static <T> int sumIntValues(List<T> list, ToIntFunction<T> mapper) {
+        return list.stream().mapToInt(mapper).sum();
     }
 }

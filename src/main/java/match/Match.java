@@ -28,19 +28,33 @@ public class Match {
      * Match result (A won, B won, or Draw).
      */
     private final MatchResult result;
-
+    /**
+     * Players who have already bet on this match.
+     */
+    private final List<String> blacklisted;
     /**
      * Profit the casino has earned.
      */
     private int balance = 0;
 
+
     /**
-     * Players who have already bet on this match.
+     * Creates a new `Match` instance based on the provided data string.
+     *
+     * @param data The data string containing match details.
      */
-    private final List<String> blacklisted;
+    public Match(String data) {
+        String[] array = data.split(",");
+        id = array[0];
+        A = Double.parseDouble(array[1]);
+        B = Double.parseDouble(array[2]);
+        result = MatchResult.fromString(array[3]);
+        blacklisted = new ArrayList<>();
+    }
 
-
-    public int getBalance() {return balance;}
+    public int getBalance() {
+        return balance;
+    }
 
     /**
      * Places a bet on the match and updates player balances based on the result.
@@ -75,7 +89,7 @@ public class Match {
      * @throws IllegalArgumentException if any of the validation conditions are not met
      */
     private void validateBet(Player player, int bet, MatchResult side) {
-        if (bet < 0 ) {
+        if (bet < 0) {
             throw new IllegalArgumentException("Bet amount can't be negative");
         }
         if (hasAlreadyBet(player)) {
@@ -126,19 +140,5 @@ public class Match {
     @Override
     public String toString() {
         return String.format("%s %s/%s result:%s balance:%s blacklisted:%s", id, A, B, result, balance, blacklisted);
-    }
-
-    /**
-     * Creates a new `Match` instance based on the provided data string.
-     *
-     * @param data The data string containing match details.
-     */
-    public Match(String data) {
-        String[] array = data.split(",");
-        id = array[0];
-        A = Double.parseDouble(array[1]);
-        B = Double.parseDouble(array[2]);
-        result = MatchResult.fromString(array[3]);
-        blacklisted = new ArrayList<>();
     }
 }

@@ -2,6 +2,11 @@ package player;
 
 import match.Match;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * The `Player` class represents a participant in a betting game.
  * <p>
@@ -41,7 +46,11 @@ public class Player {
     /**
      * A string indicating any illegal operation performed by the player, or null if none.
      */
-    public String illegalOperation = null;
+    private String illegalOperation = null;
+
+    public Player(String uuid) {
+        id = uuid;
+    }
 
     /**
      * Retrieves the current account balance of the player.
@@ -50,6 +59,12 @@ public class Player {
      */
     public int getBalance() {
         return balance;
+    }
+
+    public void setIllegalOperation(String operation) {
+        List<String> newOperations = new java.util.ArrayList<>(Arrays.stream(operation.split(",")).map(val -> val.isEmpty() ? "null" : val).toList());
+        if (newOperations.size() < 5) newOperations.add("null");
+        illegalOperation = String.join(" ", newOperations);
     }
 
     /**
@@ -102,7 +117,19 @@ public class Player {
         return illegalOperation != null;
     }
 
-    public Player(String uuid) {
-        id = uuid;
+    /**
+     * Checks if the player hasn't made any illegal operations.
+     *
+     * @return true if the player hasn't made any illegal operations, false otherwise
+     */
+    public boolean isNotACriminal() {
+        return illegalOperation == null;
+    }
+
+    @Override
+    public String toString() {
+        if (isACriminal()) return illegalOperation;
+        BigDecimal rate = BigDecimal.valueOf(gamesPlayed == 0 ? 0 : 1.0 * gamesWon / gamesPlayed);
+        return String.format(Locale.FRANCE, "%s %d %.2f", id, balance, rate);
     }
 }

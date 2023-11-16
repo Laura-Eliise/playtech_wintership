@@ -1,7 +1,7 @@
-import errors.CustomException;
 import processor.OrderProcessor;
 import processor.Result;
-import textio.*;
+import textio.TextReader;
+import textio.TextWriter;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class Main {
         System.out.println("Hello Playtech!");
     }
 
-    public static void main(String[] args) throws CustomException {
+    public static void main(String[] args) {
         Greetings();
         TextReader reader = new TextReader();
         TextWriter write = new TextWriter();
