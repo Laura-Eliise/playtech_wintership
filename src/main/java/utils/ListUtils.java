@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 
 /**
- * The `ListUtils` class provides utility methods for working with lists.
+ * The ListUtils class provides utility methods for working with lists.
  */
 public class ListUtils {
 

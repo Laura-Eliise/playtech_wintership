@@ -1,5 +1,5 @@
-import processor.OrderProcessor;
-import processor.Result;
+import processors.OrderProcessor;
+import processors.Result;
 import textio.TextReader;
 import textio.TextWriter;
 
@@ -19,6 +19,6 @@ public class Main {
         List<String> rawPlayerData = reader.read("player_data.txt");
 
         Result result = new OrderProcessor().process(rawMatchData, rawPlayerData);
-        write.write("result.txt", result.toString());
+        write.write("./src/main/java/result.txt", result.toString());
     }
 }

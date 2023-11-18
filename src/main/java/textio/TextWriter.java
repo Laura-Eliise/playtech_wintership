@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * The `TextWriter` class provides functionality to create a text file and write data to it.
+ * The TextWriter class provides functionality to create a text file and write data to it.
  * <p>
  * It uses the specified file path to create a text file and writes the provided data to that file.
  * If the file cannot be written to the specified path, an error will be thrown with appropriate error messages.
@@ -25,7 +25,7 @@ public class TextWriter {
             PrintWriter writer = new PrintWriter(file);
             writer.print(data);
             writer.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.printf("Couldn't create file at %s.\n", path);
             throw new IllegalArgumentException(String.format("Couldn't create file at %s.\n", path));
         }
@@ -40,6 +40,7 @@ public class TextWriter {
      * @return the created File object
      * @throws IOException if there is an issue creating the file
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private File createFile(String path) throws IOException {
         File file = new File(path);
         file.createNewFile();

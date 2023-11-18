@@ -1,6 +1,4 @@
-package player;
-
-import match.Match;
+package models;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -8,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * The `Player` class represents a participant in a betting game.
+ * The Player class represents a participant in a betting game.
  * <p>
  * Each player has a unique uuid (`id`), an account balance (`balance`), and statistics
  * regarding the number of games won (`gamesWon`) and games played (`gamesPlayed`).
@@ -129,7 +127,10 @@ public class Player {
     @Override
     public String toString() {
         if (isACriminal()) return illegalOperation;
-        BigDecimal rate = BigDecimal.valueOf(gamesPlayed == 0 ? 0 : 1.0 * gamesWon / gamesPlayed);
-        return String.format(Locale.FRANCE, "%s %d %.2f", id, balance, rate);
+        double rate = 1.0 * gamesWon / gamesPlayed;
+        if (Double.isNaN(rate)) {
+            return String.format(Locale.FRANCE, "%s %d null", id, balance);
+        }
+        return String.format(Locale.FRANCE, "%s %d %.2f", id, balance, new BigDecimal(rate));
     }
 }

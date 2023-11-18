@@ -1,15 +1,15 @@
-package processor;
+package processors;
 
-import match.Match;
-import match.MatchResult;
-import player.Player;
+import models.Match;
+import models.MatchResult;
+import models.Player;
 import utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The `OrderProcessor` class is responsible for processing raw match and player data
+ * The OrderProcessor class is responsible for processing raw match and player data
  * to generate a result encapsulating the final state of players and matches.
  * <p>
  * This class provides methods to process raw data, create player and match objects,
@@ -105,8 +105,10 @@ public class OrderProcessor {
             switch (order[1]) {
                 case "DEPOSIT" -> player.incrementBalance(Integer.parseInt(order[3]));
                 case "WITHDRAW" -> player.incrementBalance(-1 * Integer.parseInt(order[3]));
-                case "BET" ->
-                        matches.get(ListUtils.findFirstIndex(matches, match -> order[2].equals(match.id))).bet(player, Integer.parseInt(order[3]), MatchResult.fromString(order[4]));
+                case "BET" -> {
+                        int index = ListUtils.findFirstIndex(matches, match -> order[2].equals(match.id));
+                        matches.get(index).bet(player, Integer.parseInt(order[3]), MatchResult.fromString(order[4]));
+                }
             }
         } catch (Exception e) {
             player.setIllegalOperation(String.join(",", order));

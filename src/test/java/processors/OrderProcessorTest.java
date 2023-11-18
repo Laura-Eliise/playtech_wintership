@@ -1,4 +1,4 @@
-package processor;
+package processors;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -6,8 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import match.Match;
-import player.Player;
+import models.Match;
+import models.Player;
+import utils.Pair;
 
 import static utils.ListUtils.sumIntValues;
 
@@ -50,7 +51,12 @@ class OrderProcessorTest {
         assertEquals(3, result.matches.size());
         assertEquals(3, result.players.size());
 
-        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
+        int casinoTotal = sumIntValues(result.matches.stream()
+                .map(Match::getBalance)
+                .flatMap(List::stream)
+                .toList(),
+                Pair::getSecond
+        );
         int playerTotal = sumIntValues(result.players, Player::getBalance);
         assertEquals(0, casinoTotal);
         assertEquals(4000+100+700, playerTotal);
@@ -98,7 +104,12 @@ class OrderProcessorTest {
         assertEquals(3, result.players.size());
 
         int playerTotal = sumIntValues(result.players, Player::getBalance);
-        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
+        int casinoTotal = sumIntValues(result.matches.stream()
+                        .map(Match::getBalance)
+                        .flatMap(List::stream)
+                        .toList(),
+                Pair::getSecond
+        );
         assertEquals(300+500-((int) (40*1.45)), casinoTotal);
         assertEquals(4000+100+700-300-500+((int) (40*1.45)), playerTotal);
 
@@ -116,7 +127,12 @@ class OrderProcessorTest {
         assertEquals(3, result.players.size());
 
         int playerTotal = sumIntValues(result.players, Player::getBalance);
-        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
+        int casinoTotal = sumIntValues(result.matches.stream()
+                        .map(Match::getBalance)
+                        .flatMap(List::stream)
+                        .toList(),
+                Pair::getSecond
+        );
         assertEquals(40, casinoTotal);
         assertEquals(4000+100+700-40, playerTotal);
 
@@ -135,7 +151,12 @@ class OrderProcessorTest {
         assertEquals(3, result.players.size());
 
         int playerTotal = sumIntValues(result.players, Player::getBalance);
-        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
+        int casinoTotal = sumIntValues(result.matches.stream()
+                        .map(Match::getBalance)
+                        .flatMap(List::stream)
+                        .toList(),
+                Pair::getSecond
+        );
         assertEquals(300+500-((int) (40*1.45))-((int) (1000*0.23))+50, casinoTotal);
         assertEquals(4000+100+700-300-500+((int) (40*1.45))+((int) (1000*0.23))-50, playerTotal);
 
@@ -155,7 +176,12 @@ class OrderProcessorTest {
         assertEquals(3, result.players.size());
 
         int playerTotal = sumIntValues(result.players, Player::getBalance);
-        int casinoTotal = sumIntValues(result.matches, Match::getBalance);
+        int casinoTotal = sumIntValues(result.matches.stream()
+                        .map(Match::getBalance)
+                        .flatMap(List::stream)
+                        .toList(),
+                Pair::getSecond
+        );
         assertEquals(300+500-((int) (40*1.45))-((int) (1000*0.23))+50, casinoTotal);
         assertEquals(4000+100+700-300-500+((int) (40*1.45))+((int) (1000*0.23))-50-1100-10, playerTotal);
 

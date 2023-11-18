@@ -1,7 +1,7 @@
-package match;
+package models;
 
 /**
- * The `MatchResult` enum represents the possible outcomes of a match in a betting game.
+ * The MatchResult enum represents the possible outcomes of a match in a betting game.
  * <p>
  * Each enum constant corresponds to a specific result: "A" for side A winning, "B" for side B winning,
  * and "DRAW" for a draw. The enum provides methods for converting between enum constants and string values.

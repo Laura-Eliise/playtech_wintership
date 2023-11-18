@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * The `TextReader` class provides functionality to read the content of a text file.
+ * The TextReader class provides functionality to read the content of a text file.
  * <p>
  * It uses the specified file path to locate and read the content of the text file.
  * If the file at the specified path does not exist or is not a text file, the program

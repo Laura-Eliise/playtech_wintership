@@ -1,12 +1,12 @@
-package match;
+package models;
 
-import player.Player;
+import utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The `Match` class represents a betting game match, including its win and lose rates
+ * The Match class represents a betting game match, including its win and lose rates
  * and the match result.
  * <p>
  * This class allows players to place bets on the match, tracks the match result,
@@ -35,8 +35,7 @@ public class Match {
     /**
      * Profit the casino has earned.
      */
-    private int balance = 0;
-
+    private final List<Pair<String, Integer>> balance;
 
     /**
      * Creates a new `Match` instance based on the provided data string.
@@ -50,9 +49,10 @@ public class Match {
         B = Double.parseDouble(array[2]);
         result = MatchResult.fromString(array[3]);
         blacklisted = new ArrayList<>();
+        balance = new ArrayList<>();
     }
 
-    public int getBalance() {
+    public List<Pair<String, Integer>> getBalance() {
         return balance;
     }
 
@@ -113,7 +113,7 @@ public class Match {
     private void won(Player player, int bet, MatchResult side) {
         int amountWon = (int) (bet * ((side == MatchResult.A) ? A : B));
         player.matchWin(amountWon);
-        balance -= amountWon;
+        balance.add(new Pair<>(player.id, -amountWon));
     }
 
     /**
@@ -124,7 +124,7 @@ public class Match {
      */
     private void lost(Player player, int bet) {
         player.matchLose(bet);
-        balance += bet;
+        balance.add(new Pair<>(player.id, bet));
     }
 
     /**
