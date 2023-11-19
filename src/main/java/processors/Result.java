@@ -11,10 +11,10 @@ import static utils.ListUtils.sumIntValues;
 
 /**
  * The Result class represents the final result obtained from processing
- * player actions in the betting games.
+ * player bets and transactions in the betting games.
  * <p>
  * It contains information about the players involved, the matches played,
- * and provides a string representation of the result.
+ * and provides a string representation of the result of the games.
  */
 public class Result {
     /**
@@ -39,8 +39,9 @@ public class Result {
     }
 
     /**
-     * Generates a string representation of the final result. It has
-     * information about legal and illegal players and the casino's balance.
+     * Create a string from the final results of the betting game. The string contains
+     * information about legal players final state, illegal players final move and
+     * the casino's balance at the of the betting game.
      *
      * @return A formatted string representing the final result.
      */

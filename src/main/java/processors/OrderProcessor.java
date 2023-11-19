@@ -9,55 +9,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The OrderProcessor class is responsible for processing raw match and player data
- * to generate a result encapsulating the final state of players and matches.
+ * The OrderProcessor class is responsible for processing raw match and player data.
+ * The result is written
  * <p>
  * This class provides methods to process raw data, create player and match objects,
- * execute player orders, and return a {@code Result} object containing the final state.
- * <p>
- * Raw Match Data Format:
- * Each element in rawMatchData represents raw data for a match.
- * The data format for each match should follow the Match class constructor format:
- * "matchID,winRateA,winRateB,matchResult" (e.g., "Jordan,1.5,0.8,A").
- * <p>
- * Raw Player Data Format:
- * Each element in rawPlayerData represents raw data for a player's order.
- * The data format for each player's order should follow the handleOrder method format:
- * "playerID,operation,matchId,amount,betPlacedSide" (e.g., "Kakavas,DEPOSIT,,100,", "Watanabe,BET,Match1,50,A").
- * <p>
- * The `OrderProcessor` class uses internal methods to handle specific aspects of the processing,
- * such as creating players, processing match data, and handling individual player orders.
- * <p>
- * Note: It is recommended to review the documentation for each method for detailed information
- * about their purpose, input parameters, and potential exceptions.
+ * execute player orders, and return a Result object containing the final state.
  *
  * @see Match
  * @see Player
  * @see Result
- * @see ListUtils
  */
 public class OrderProcessor {
     /**
-     * Processes raw match and player data to generate a result.
+     * Processes player bets and transactions.
      * <p>
-     * The method takes raw match data and raw player data as input, creates player and match objects,
-     * and executes orders for each player. The result is encapsulated in a {@code Result} object.
+     * The method takes raw match data and raw player data as input, creates match objects,
+     * and executes orders for each player. The result is encapsulated in a Result object.
      * <p>
      * Raw Match Data Format:
      * Each element in rawMatchData represents raw data for a match.
      * The data format for each match should follow the Match class constructor format:
-     * "matchID,winRateA,winRateB,matchResult" (e.g., "Jordan,1.5,0.8,A").
+     * <pre>
+     *     "matchID,winRateA,winRateB,matchResult"
+     *     "Jordan,1.5,0.8,A"
+     * </pre>
      * <p>
      * Raw Player Data Format:
      * Each element in rawPlayerData represents raw data for a player's order.
      * The data format for each player's order should follow the handleOrder method format:
-     * "playerID,operation,matchId,amount,betPlacedSide" (e.g., "Kakavas,DEPOSIT,,100,", "Watanabe,BET,Match1,50,A").
+     * <pre>
+     *     "playerID,operation,matchId,amount,betPlacedSide"
+     *     "Kakavas,DEPOSIT,,100,"
+     *     "Watanabe,BET,Match1,50,A").
+     * </pre>
      *
-     * @param rawMatchData  the raw data representing matches
-     * @param rawPlayerData the raw data representing player orders
-     * @return a Result object containing the final state of players and matches
-     * @throws IllegalArgumentException if there is an issue parsing raw data or executing player orders
-     * @throws NumberFormatException    if there is an issue parsing numeric values from the raw data
+     * @param rawMatchData  the unprocessed matches
+     * @param rawPlayerData the unprocessed player orders
+     * @return a Result object containing the final state of the players and matches.
+     * @throws IllegalArgumentException if there is an issue parsing match data or executing player orders
+     * @throws NumberFormatException    if there is an issue parsing player data
      */
     public Result process(List<String> rawMatchData, List<String> rawPlayerData) {
         List<Player> players = new ArrayList<>();
@@ -83,11 +73,13 @@ public class OrderProcessor {
      * Handles an order for a player.
      * <p>
      * The order array should have the following format:
+     * <pre>
      * order[0]: Player ID
      * order[1]: Order Type ("DEPOSIT", "WITHDRAW" or "BET")
      * order[2]: [Optional] Match ID (for "BET" operation)
      * order[3]: Amount (For all three operations)
      * order[4]: [Optional] Bet result ("A", "B", or "DRAW" for "BET" operation)
+     * </pre>
      * <p>
      * The method performs the specified operation on the player's balance or places a bet on a match.
      * In case of an illegal operation or an exception during processing, the player's illegalOperation
