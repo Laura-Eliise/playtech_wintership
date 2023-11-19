@@ -1,7 +1,7 @@
 # Basic Better  
 Java program that processes betting data.  
 
-### Reading and Writing ✅
+### Reading and Writing ✅  
 - [x] Read .txt file content.
 - [x] Write to result.txt:
   -  [x] Write legitimate player data,
@@ -17,12 +17,11 @@ Java program that processes betting data.
   - [x] Handle illegal action.
 - [x] Don't include all illegal player actions in the final balance.
 
-### Wrap up
-- [ ] Create a README file:
-  - [ ] Introductions,
-  - [ ] Instructions on running the program,
-  - [ ] Explanations of how the program works,
-  - [ ] Future additions.
+### Wrap up ✅  
+- [x] Create a README file:
+  - [x] Introductions,
+  - [x] Instructions on running the program,
+  - [x] Explanations of how the program works,
 - [x] Improve documentation.
 - [x] Look over the tests:
   - [x] Remove redundant tests,
